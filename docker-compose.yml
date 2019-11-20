@@ -1,0 +1,14 @@
+version: "2"
+services:
+  codabix:
+    image: traeger/codabix:latest
+    ports:
+      - "8181:8181"
+    volumes:
+      - "codabix-data:/home/codabix/data"
+    environment:
+      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_PROJECT_NAME: My CoDaBix project
+    command:  --runAsService
+volumes:
+  codabix-data:
