@@ -7,7 +7,7 @@ ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 
 FROM base as builder
 
-ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-0.20.61/codabix-rpi-2019-11-19-0.20.61.setup
+ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-0.21.0/codabix-rpi-2019-12-18-0.21.0.setup
 
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 
