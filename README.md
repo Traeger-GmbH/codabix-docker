@@ -36,7 +36,7 @@ docker volume create codabix-data
 2. Mount the volume under the project directory path during the start of the CoDaBix container:
 
 ```
-docker run -d p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:latest --runAsService
+docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:latest --runAsService
 ```
 
 #### Bind to the host's filesystem
@@ -45,7 +45,7 @@ Instead of passing the name of a docker volume simply pass the path of the hosts
 The CoDaBix process inside the container is run by the user `codabix` with user id 999 and group id 999. So you have to map the user (using the flag `-u 999`) to match the respective permissions on your file system.
 
 ```
-docker run -d p 8181:8181 -u 999 -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --runAsService
+docker run -d -p 8181:8181 -u 999 -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --runAsService
 ```
 
 ## Using docker-compose
