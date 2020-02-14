@@ -102,6 +102,43 @@ If you also want to remove the volume pass the `-v` option to the command:
 docker-compose down -v
 ```
 
+## Enable access to peripherals
+
+The following section describes the setup that is necessary to access hardware peripherals of the host system (e.g. i2C, USB, serial ports,...).
+
+* Mount the `/dev` directory as volume by passing the command line option `-v /dev:/dev`
+* Usually you need root privileges to access the hardware peripherals. As the default user that runs CoDaBix inside the docker container does not have these kind of privileges it is necessary to override this by `-u root`
+* In addition to that a container is not allowed to access any devices of the. So you have to explicitly give permission to that by passing `--privileged`
+
+```
+docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:rpi-latest --runAsService
+```
+
+**Please note**:
+As this container now is executed as `root` user the files created on the host's filesystem will be owned by the `root` user and you need `root` or `sudo` privileges to remove or change them.
+
+Example when using __docker-compose__:
+
+``` docker-compose.yml
+version: "2"
+services:
+  codabix:
+    image: traeger/codabix:rpi-latest
+    ports:
+      - "8181:8181"
+    volumes:
+      - "codabix-data:/home/codabix/data"
+      - "/dev:/dev"
+    environment:
+      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_PROJECT_NAME: My CoDaBix project
+    command:  --runAsService
+    user: root
+    privileged: true
+volumes:
+  codabix-data:
+```
+
 ## CoDaBix settings
 
 ### Default settings
