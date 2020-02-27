@@ -84,9 +84,9 @@ For detached mode pass the flag `-d`:
 docker-compose up -d
 ```
 
-## Stopping the service
+### Stopping the service
 
-### Persistent
+#### Persistent
  
 Executing the following command will remove the container and its corresponding resources but persist the volume that contains the data created by CoDaBix.
 
@@ -100,6 +100,16 @@ If you also want to remove the volume pass the `-v` option to the command:
 
 ```
 docker-compose down -v
+```
+
+## Restoring from a backup file
+
+To restore the configuration from a CoDaBix backup file the file has to be accessible inside the container (e.g. by mounting its containing directory). An environment variable `CODABIX_RESTORE_FILE` is used to pass its path to the startup script.
+
+The following command assumes that the backup file is located on the host's filesystem under the path `/home/SomeUser/codabix/restore-file.cbx`.
+
+```
+docker run -d -p 8181:8181 -v /home/SomeUser/codabix/restore-file.cbx:/home/codabix/restore-file.cbx --env CODABIX_RESTORE_FILE=/home/codabix/restore-file.cbx traeger/codabix:latest --runAsService
 ```
 
 ## Enable access to peripherals
