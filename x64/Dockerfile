@@ -1,17 +1,19 @@
 FROM ubuntu:latest as base
-ENV CODABIX_SETUP_FILE /tmp/codabix.setup
-
 
 FROM base as builder
 
 ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-0.21.50/codabix-linux-x64-2020-02-20-0.21.50.setup
-
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
-
 RUN apt-get update && apt-get install -y \
     curl
-
+RUN mkdir -p /home/scripts/
+RUN mkdir -p /tmp/codabix
 RUN curl ${CODABIX_DOWNLOAD_LINK} --output ${CODABIX_SETUP_FILE}
+
+COPY ./scripts/extract.sh /home/scripts/extract.sh
+
+RUN chmod +x /home/scripts/extract.sh \
+    && /home/scripts/extract.sh ${CODABIX_SETUP_FILE}
 
 FROM base
 
@@ -20,16 +22,14 @@ RUN apt-get update && apt-get install -y \
     libssl1.1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder ${CODABIX_SETUP_FILE} ${CODABIX_SETUP_FILE}
+RUN mkdir -p /opt/traeger/codabix \
+    && mkdir -p /home/scripts
 
-RUN mkdir /home/scripts
+COPY --from=builder /tmp/codabix/* /opt/traeger/codabix/
 COPY ./scripts/start.sh /home/scripts
-COPY ./scripts/install.sh /home/scripts
-RUN chmod +x /home/scripts/start.sh
-RUN chmod +x /home/scripts/install.sh
 
-RUN /home/scripts/install.sh ${CODABIX_SETUP_FILE}
-RUN rm ${CODABIX_SETUP_FILE} && rm /home/scripts/install.sh
+RUN ln -sf /opt/traeger/codabix/CoDaBix-Shell /bin/codabix \
+    && chmod +x /home/scripts/start.sh
 
 EXPOSE 8181
 
