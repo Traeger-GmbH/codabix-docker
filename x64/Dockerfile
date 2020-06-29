@@ -1,4 +1,4 @@
-FROM ubuntu:latest as base
+FROM ubuntu:18.04 as base
 
 FROM base as builder
 
