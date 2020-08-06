@@ -9,6 +9,6 @@ services:
     environment:
       CODABIX_ADMIN_PASSWORD: admin
       CODABIX_PROJECT_NAME: My CoDaBix project
-    command:  --runAsService
+    command:  --run-as-service
 volumes:
   codabix-data:

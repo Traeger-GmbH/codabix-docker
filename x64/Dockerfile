@@ -2,7 +2,7 @@ FROM ubuntu:18.04 as base
 
 FROM base as builder
 
-ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-0.23.1/codabix-linux-x64-2020-07-30-0.23.1.setup
+ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-1.0.0/codabix-linux-x64-2020-07-30-1.0.0.setup
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 RUN apt-get update && apt-get install -y \
     curl
@@ -28,7 +28,7 @@ RUN mkdir -p /opt/traeger/codabix \
 COPY --from=builder /tmp/codabix/* /opt/traeger/codabix/
 COPY ./scripts/start.sh /home/scripts
 
-RUN ln -sf /opt/traeger/codabix/CoDaBix-Shell /bin/codabix \
+RUN ln -sf /opt/traeger/codabix/codabix /bin/codabix \
     && chmod +x /home/scripts/start.sh
 
 EXPOSE 8181
