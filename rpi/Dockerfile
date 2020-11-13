@@ -30,7 +30,7 @@ RUN mkdir -p /opt/traeger/codabix \
 COPY --from=builder /tmp/codabix/* /opt/traeger/codabix
 COPY ./scripts/start.sh /home/scripts
 
-RUN ln -sf /opt/traeger/codabix/CoDaBix-Shell /bin/codabix \
+RUN ln -sf /opt/traeger/codabix/codabix /bin/codabix \
     && chmod +x /home/scripts/start.sh
 
 EXPOSE 8181
