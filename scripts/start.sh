@@ -30,7 +30,7 @@ if [[ (-z "${CODABIX_INITIALIZED}" ) && (! -f "${CODABIX_PROJECT_DIR}/codabixdb.
     fi
 
     # initialize/upgrade the back-end database
-    codabix init --project-directory=${CODABIX_PROJECT_DIR}
+    codabix init --upgrade --project-directory=${CODABIX_PROJECT_DIR}
 
     codabix set-admin-password ${CODABIX_ADMIN_PASSWORD} --project-directory=${CODABIX_PROJECT_DIR}
 
