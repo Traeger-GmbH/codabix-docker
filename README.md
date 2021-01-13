@@ -1,6 +1,6 @@
-# CoDaBix Docker
+# Codabix Docker
 
-This is the repository containing CoDaBix Docker images.
+This is the repository containing Codabix Docker images.
 
 ## Running the latest version
 
@@ -28,8 +28,8 @@ docker run -d -p 8181:8181 traeger/codabix:latest --run-as-service
 
 ### Persistence
 
-Per default the directory `/home/codabix/data` will be used as project directory where CoDaBix will store its data.
-To persist this data independent of the CoDaBix container you can either use a docker volume or bind this directory to the filesystem of the host. 
+Per default the directory `/home/codabix/data` will be used as project directory where Codabix will store its data.
+To persist this data independent of the Codabix container you can either use a docker volume or bind this directory to the filesystem of the host.
 
 #### Using a volume
 
@@ -39,7 +39,7 @@ To persist this data independent of the CoDaBix container you can either use a d
 docker volume create codabix-data
 ```
 
-2. Mount the volume under the project directory path during the start of the CoDaBix container:
+2. Mount the volume under the project directory path during the start of the Codabix container:
 
 `Codabix v0.x`
 ```
@@ -54,7 +54,7 @@ docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:la
 #### Bind to the host's filesystem
 
 Instead of passing the name of a docker volume simply pass the path of the hosts directory as first part of the `-v` option.
-The CoDaBix process inside the container is run by the user `codabix` with user id 999 and group id 999. So you have to map the user (using the flag `-u 999`) to match the respective permissions on your file system.
+The Codabix process inside the container is run by the user `codabix` with user id 999 and group id 999. So you have to map the user (using the flag `-u 999`) to match the respective permissions on your file system.
 
 `Codabix v0.x:`
 ```
@@ -83,7 +83,7 @@ services:
       - "codabix-data:/home/codabix/data"
     environment:
       CODABIX_ADMIN_PASSWORD: admin
-      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_PROJECT_NAME: My Codabix project
     command:  --runAsService
 volumes:
   codabix-data:
@@ -101,7 +101,7 @@ services:
       - "codabix-data:/home/codabix/data"
     environment:
       CODABIX_ADMIN_PASSWORD: admin
-      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_PROJECT_NAME: My Codabix project
     command:  --run-as-service
 volumes:
   codabix-data:
@@ -125,7 +125,7 @@ docker-compose up -d
 
 #### Persistent
  
-Executing the following command will remove the container and its corresponding resources but persist the volume that contains the data created by CoDaBix.
+Executing the following command will remove the container and its corresponding resources but persist the volume that contains the data created by Codabix.
 
 ```
 docker-compose down
@@ -141,7 +141,7 @@ docker-compose down -v
 
 ## Restoring from a backup file
 
-To restore the configuration from a CoDaBix backup file the file has to be accessible inside the container (e.g. by mounting its containing directory). An environment variable `CODABIX_RESTORE_FILE` is used to pass its path to the startup script.
+To restore the configuration from a Codabix backup file the file has to be accessible inside the container (e.g. by mounting its containing directory). An environment variable `CODABIX_RESTORE_FILE` is used to pass its path to the startup script.
 
 The following command assumes that the backup file is located on the host's filesystem under the path `/home/SomeUser/codabix/restore-file.cbx`.
 
@@ -160,7 +160,7 @@ docker run -d -p 8181:8181 -v /home/SomeUser/codabix/restore-file.cbx:/home/coda
 The following section describes the setup that is necessary to access hardware peripherals of the host system (e.g. i2C, USB, serial ports,...).
 
 * Mount the `/dev` directory as volume by passing the command line option `-v /dev:/dev`
-* Usually you need root privileges to access the hardware peripherals. As the default user that runs CoDaBix inside the docker container does not have these kind of privileges it is necessary to override this by `-u root`
+* Usually you need root privileges to access the hardware peripherals. As the default user that runs Codabix inside the docker container does not have these kind of privileges it is necessary to override this by `-u root`
 * In addition to that a container is not allowed to access any devices of the. So you have to explicitly give permission to that by passing `--privileged`
 
 `Codabix v0.x:`
@@ -191,7 +191,7 @@ services:
       - "/dev:/dev"
     environment:
       CODABIX_ADMIN_PASSWORD: admin
-      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_PROJECT_NAME: My Codabix project
     command:  --runAsService
     user: root
     privileged: true
@@ -212,7 +212,7 @@ services:
       - "/dev:/dev"
     environment:
       CODABIX_ADMIN_PASSWORD: admin
-      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_PROJECT_NAME: My Codabix project
     command:  --run-as-service
     user: root
     privileged: true
@@ -220,7 +220,7 @@ volumes:
   codabix-data:
 ```
 
-## CoDaBix settings
+## Codabix settings
 
 ### Default settings
 
@@ -242,4 +242,4 @@ For overriding e.g. the admin password with the value `MySuperComplexPassword` t
 docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword traeger/codabix:latest
 ```
 
-> NOTE: When running the CoDaBix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
+> NOTE: When running the Codabix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
