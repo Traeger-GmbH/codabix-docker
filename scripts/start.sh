@@ -36,6 +36,8 @@ if [[ (-z "${CODABIX_INITIALIZED}" ) && (! -f "${CODABIX_PROJECT_DIR}/codabixdb.
 
     unset ${CODABIX_ADMIN_PASSWORD}
     export CODABIX_INITIALIZED=true
+else
+    codabix init --upgrade --project-directory=${CODABIX_PROJECT_DIR}
 fi
 
 codabix --project-directory=${CODABIX_PROJECT_DIR} $1
