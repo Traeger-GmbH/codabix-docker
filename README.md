@@ -245,7 +245,7 @@ docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword t
 > NOTE: When running the Codabix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
 
 
-### Override more settings parameters
+### Overriding more settings parameters
 
 Starting from `traeger/codabix:1.0.3` it is now possible to override the default project settings by passing JSON data via the environment variable `CODABIX_PROJECT_SETTINGS`.
 
