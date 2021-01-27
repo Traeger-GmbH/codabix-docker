@@ -1,0 +1,38 @@
+version: "2"
+services:
+  codabix:
+    image: codabix:1.0.3
+    ports:
+      - "8183:8181"
+    volumes:
+      - "codabix-data:/home/codabix/data"
+      - "./restore-file.cbx:/home/codabix/restore-file.cbx"
+    depends_on:
+      - "db"
+    environment:
+      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_PROJECT_SETTINGS: >- 
+        { 'DatabaseMode': 'MySQL',
+          'SqlConnection':
+            {
+              'Hostname': 'db',
+              'Database': 'codabix-backend',
+              'Username': 'codabix',
+              'Password': 'codabix'
+            }
+        }
+      CODABIX_RESTORE_FILE: /home/codabix/restore-file.cbx
+    command:  --run-as-service
+  db:
+    image: mysql:latest
+    volumes:
+      - "db-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: codabix-backend
+      MYSQL_USER: codabix
+      MYSQL_PASSWORD: codabix
+volumes:
+  codabix-data:
+  db-data:
