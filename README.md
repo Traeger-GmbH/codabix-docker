@@ -263,10 +263,9 @@ services:
   codabix:
     image: traeger/codabix:latest
     ports:
-      - "8183:8181"
+      - "8181:8181"
     volumes:
       - "codabix-data:/home/codabix/data"
-      - "./restore-file.cbx:/home/codabix/restore-file.cbx"
     depends_on:
       - "db"
     environment:
@@ -282,7 +281,6 @@ services:
               'Password': 'codabix'
             }
         }
-      CODABIX_RESTORE_FILE: /home/codabix/restore-file.cbx
     command:  --run-as-service
   db:
     image: mysql:latest

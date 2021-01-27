@@ -3,7 +3,7 @@ services:
   codabix:
     image: traeger/codabix:1.0.3
     ports:
-      - "8183:8181"
+      - "8181:8181"
     volumes:
       - "codabix-data:/home/codabix/data"
     depends_on:
