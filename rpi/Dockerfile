@@ -4,7 +4,7 @@ COPY qemu-arm-static /usr/bin
 
 FROM base as builder
 
-ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-1.0.4/codabix-linux-arm32-2021-02-05-1.0.4.setup
+ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/_media/downloads/installers/codabix-1.1.0-preview-1/codabix-linux-arm32-2021-02-05-1.1.0-preview-1.setup
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 RUN apt-get update && apt-get install -y \
     curl
