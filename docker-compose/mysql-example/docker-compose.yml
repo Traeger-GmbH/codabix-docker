@@ -9,7 +9,7 @@ services:
     depends_on:
       - "db"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My CoDaBix project
       CODABIX_PROJECT_SETTINGS: >- 
         { 'DatabaseMode': 'MySQL',

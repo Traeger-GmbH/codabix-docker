@@ -82,7 +82,7 @@ services:
     volumes:
       - "codabix-data:/home/codabix/data"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My Codabix project
     command:  --runAsService
 volumes:
@@ -100,7 +100,7 @@ services:
     volumes:
       - "codabix-data:/home/codabix/data"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My Codabix project
     command:  --run-as-service
 volumes:
@@ -190,7 +190,7 @@ services:
       - "codabix-data:/home/codabix/data"
       - "/dev:/dev"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My Codabix project
     command:  --runAsService
     user: root
@@ -211,7 +211,7 @@ services:
       - "codabix-data:/home/codabix/data"
       - "/dev:/dev"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My Codabix project
     command:  --run-as-service
     user: root
@@ -269,7 +269,7 @@ services:
     depends_on:
       - "db"
     environment:
-      CODABIX_ADMIN_PASSWORD: admin
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My CoDaBix project
       CODABIX_PROJECT_SETTINGS: >- 
         { 'DatabaseMode': 'MySQL',
@@ -294,5 +294,36 @@ services:
 volumes:
   codabix-data:
   db-data:
+```
 
+## Setting the license code
+
+The license code used by Codabix inside the container is set via the environment variable `CODABIX_LICENSE_CODE`.
+
+**Attention:** This environment variable has been introduced in Codabix v1.0 so it will only work for version upwards.
+
+Example when using __docker run__ (`<your-license-code>` representates your license code here):
+
+```
+docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data -e CODABIX_LICENSE_CODE=<you-license-code> traeger/codabix:latest --run-as-service
+```
+
+Example when using __docker-compose__ (`<your-license-code>` representates your license code here):
+
+```
+version: "2"
+services:
+  codabix:
+    image: traeger/codabix:latest
+    ports:
+      - "8181:8181"
+    volumes:
+      - "codabix-data:/home/codabix/data"
+    environment:
+      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
+      CODABIX_PROJECT_NAME: My CoDaBix project
+      CODABIX_LICENSE_CODE: <you-license-code>
+    command:  --run-as-service
+volumes:
+  codabix-data:
 ```
