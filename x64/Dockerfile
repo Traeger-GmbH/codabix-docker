@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /opt/traeger/codabix \
     && mkdir -p /home/scripts
 
-COPY --from=builder /tmp/codabix/* /opt/traeger/codabix/
+COPY --from=builder /tmp/codabix/ /opt/traeger/codabix/
 COPY ./scripts/start.sh /home/scripts
 
 RUN ln -sf /opt/traeger/codabix/codabix /bin/codabix \
