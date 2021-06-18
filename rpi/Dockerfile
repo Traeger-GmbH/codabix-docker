@@ -9,7 +9,6 @@ ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 RUN apt-get update && apt-get install -y \
     curl
 RUN mkdir -p /home/scripts/
-RUN mkdir -p /tmp/codabix
 RUN curl ${CODABIX_DOWNLOAD_LINK} --output ${CODABIX_SETUP_FILE}
 
 COPY ./scripts/extract.sh /home/scripts/extract.sh
