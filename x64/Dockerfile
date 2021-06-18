@@ -2,7 +2,7 @@ FROM ubuntu:18.04 as base
 
 FROM base as builder
 
-ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/downloads/installers/codabix-1.1.0/codabix-linux-x64-2021-05-07-1.1.0.setup
+ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/downloads/installers/codabix-1.1.1/codabix-linux-x64-2021-06-02-1.1.1.setup
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
 RUN apt-get update && apt-get install -y \
     curl
