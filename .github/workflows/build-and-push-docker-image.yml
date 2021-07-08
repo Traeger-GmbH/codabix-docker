@@ -25,8 +25,8 @@ jobs:
       run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
     -
       name: Set Docker Image Version
-      run: if [ -z "$STORE_TAG_VERSION" ] |
-            then |
+      run: if [ -z "$STORE_TAG_VERSION" ];
+            then
               echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION
             fi
       
