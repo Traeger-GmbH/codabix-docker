@@ -30,11 +30,11 @@ jobs:
     - 
       name: Print Docker Image Tag
       run: echo "traeger/codabix:$DOCKER_TAG_VERSION"
-    
+        
     - 
       name: Build the x64 Docker image
-      run: cd x64 && docker build . --file Dockerfile --tag traeger/codabix:$DOCKER_TAG_VERSION
+      run: cp -r scripts x64/ && cd x64 && docker build . --file Dockerfile --tag traeger/codabix:$DOCKER_TAG_VERSION
       
     - 
       name: Build the RPi Docker image
-      run: cd rpi && docker build . --file Dockerfile --tag traeger/codabix:rpi-$DOCKER_TAG_VERSION
+      run: cp -r scripts rpi/ && cd rpi && docker build . --file Dockerfile --tag traeger/codabix:rpi-$DOCKER_TAG_VERSION
