@@ -12,12 +12,11 @@ on:
 
 jobs:
 
-  env:
-    DOCKER_TAG_VERSION: 'latest'
-
   build:
 
     runs-on: ubuntu-latest
+    env:
+      DOCKER_TAG_VERSION: 'latest'
 
     steps:
     - uses: actions/checkout@v2
