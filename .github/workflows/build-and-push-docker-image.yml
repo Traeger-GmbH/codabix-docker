@@ -12,6 +12,9 @@ on:
 
 jobs:
 
+  env:
+    DOCKER_TAG_VERSION: 'latest'
+
   build:
 
     runs-on: ubuntu-latest
@@ -19,8 +22,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     -
-      name: Get Docker Image Tag version
-      run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> $DOCKER_TAG_VERSION
+      name: Get Docker Image Tag version from Git tag
+      run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
+    -
+      name: Set Docker Image Version
+      if: ${{ -z "$STORE_TAG_VERSION" }}
+      run: echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION
+      
     - 
       name: Print Docker Image Tag
       run: echo "traeger/codabix:$DOCKER_TAG_VERSION"
