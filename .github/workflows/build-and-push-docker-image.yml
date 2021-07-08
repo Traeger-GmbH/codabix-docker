@@ -24,12 +24,17 @@ jobs:
       name: Get Docker Image Tag version from Git tag
       run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
     -
-      name: Set Docker Image Version
+      name: Set Docker Image Version (if existent)
       run: if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
       
     - 
       name: Print Docker Image Tag
       run: echo "traeger/codabix:$DOCKER_TAG_VERSION"
-    #- 
-    #  name: Build the Docker image
-    #  run: cd x64 && docker build . --file Dockerfile --tag traeger/codabix:$DOCKER_TAG_VERSION
+    
+    - 
+      name: Build the x64 Docker image
+      run: cd x64 && docker build . --file Dockerfile --tag traeger/codabix:$DOCKER_TAG_VERSION
+      
+    - 
+      name: Build the RPi Docker image
+      run: cd rpi && docker build . --file Dockerfile --tag traeger/codabix:rpi-$DOCKER_TAG_VERSION
