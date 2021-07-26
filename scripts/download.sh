@@ -71,7 +71,7 @@ then
 elif [ "${TARGET_PLATFORM}" = "linux/arm/v7" ]
 then
     PLATFORMID="linux-arm32"
-elif [[ "${TARGET_PLATFORM}" = "linux/arm64" ]]
+elif [ "${TARGET_PLATFORM}" = "linux/arm64" ]
 then
     PLATFORMID="linux-arm64"
 else
@@ -80,4 +80,5 @@ else
 fi
 
 DOWNLOAD_LINK="https://www.codabix.com/downloads/installers/codabix-${VERSION}/codabix-${PLATFORMID}-${RELEASE_DATE}-${VERSION}.setup"
+echo "Downloading from following link: $DOWNLOAD_LINK"
 curl ${DOWNLOAD_LINK} --output ${OUTPUT_FILEPATH}
