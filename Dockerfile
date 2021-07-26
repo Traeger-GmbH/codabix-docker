@@ -14,7 +14,7 @@ RUN mkdir -p /home/scripts/
 
 COPY ./scripts/download.sh /home/scripts/download.sh
 RUN chmod +x /home/scripts/download.sh \
-    && /home/scripts/download.sh -p ${TARGETPLATFORM} -v {VERSION} -d ${RELEASE_DATE} -o ${CODABIX_SETUP_FILE}
+    && /home/scripts/download.sh -p ${TARGETPLATFORM} -v ${VERSION} -d ${RELEASE_DATE} -o ${CODABIX_SETUP_FILE}
 
 COPY ./scripts/extract.sh /home/scripts/extract.sh
 
