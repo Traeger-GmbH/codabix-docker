@@ -165,12 +165,12 @@ The following section describes the setup that is necessary to access hardware p
 
 `Codabix v0.x:`
 ```
-docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:rpi-latest --runAsService
+docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --runAsService
 ```
 
 `Codabix v1.x:`
 ```
-docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:rpi-latest --run-as-service
+docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --run-as-service
 ```
 
 **Please note**:
@@ -183,7 +183,7 @@ Example when using __docker-compose__:
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:rpi-latest
+    image: traeger/codabix:latest
     ports:
       - "8181:8181"
     volumes:
@@ -204,7 +204,7 @@ volumes:
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:rpi-latest
+    image: traeger/codabix:latest
     ports:
       - "8181:8181"
     volumes:
