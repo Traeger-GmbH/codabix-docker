@@ -5,13 +5,16 @@ FROM base as builder
 ARG TARGETPLATFORM
 
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
+ENV VERSION 1.1.2
+ENV RELEASE_DATE 2021-06-11
+
 RUN apt-get update && apt-get install -y \
     curl
 RUN mkdir -p /home/scripts/
 
 COPY ./scripts/download.sh /home/scripts/download.sh
 RUN chmod +x /home/scripts/download.sh \
-    && /home/scripts/download.sh -p ${TARGETPLATFORM} -v 1.1.2 -d 2021-06-11 -o ${CODABIX_SETUP_FILE}
+    && /home/scripts/download.sh -p ${TARGETPLATFORM} -v {VERSION} -d ${RELEASE_DATE} -o ${CODABIX_SETUP_FILE}
 
 COPY ./scripts/extract.sh /home/scripts/extract.sh
 
