@@ -21,7 +21,7 @@ RUN chmod +x /home/scripts/extract.sh \
 FROM base
 
 RUN apt-get update && apt-get install -y \
-    libicu66 \
+    libicu67 \
     libssl1.1 \
     && rm -rf /var/lib/apt/lists/*
 
