@@ -25,7 +25,10 @@ jobs:
       run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
     -
       name: Set Docker Image Version (if existent)
-      run: if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
+      id: tags
+      run: |
+        if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
+        echo ::set-output name=tags::traeger/codabix:${DOCKER_TAG_VERSION}
       
     - 
       name: Print Docker Image Tag
@@ -51,4 +54,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64,linux/arm32
         push: false
-        tags: traeger/codabix:${{ DOCKER_TAG_VERSION }}
+        tags: ${{ steps.tags.outputs.tags }}
