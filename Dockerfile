@@ -1,15 +1,20 @@
-FROM balenalib/raspberry-pi:buster-run-20191106 as base
-
-COPY qemu-arm-static /usr/bin
+FROM ubuntu:hirsute-20210711 as base
 
 FROM base as builder
 
-ENV CODABIX_DOWNLOAD_LINK https://www.codabix.com/downloads/installers/codabix-1.1.2/codabix-linux-arm32-2021-06-11-1.1.2.setup
+ARG TARGETPLATFORM
+
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
+ENV VERSION 1.1.2
+ENV RELEASE_DATE 2021-06-11
+
 RUN apt-get update && apt-get install -y \
     curl
 RUN mkdir -p /home/scripts/
-RUN curl ${CODABIX_DOWNLOAD_LINK} --output ${CODABIX_SETUP_FILE}
+
+COPY ./scripts/download.sh /home/scripts/download.sh
+RUN chmod +x /home/scripts/download.sh \
+    && /home/scripts/download.sh -p ${TARGETPLATFORM} -v {VERSION} -d ${RELEASE_DATE} -o ${CODABIX_SETUP_FILE}
 
 COPY ./scripts/extract.sh /home/scripts/extract.sh
 
@@ -19,14 +24,14 @@ RUN chmod +x /home/scripts/extract.sh \
 FROM base
 
 RUN apt-get update && apt-get install -y \
-    libicu63 \
+    libicu67 \
     libssl1.1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/traeger/codabix \
     && mkdir -p /home/scripts
 
-COPY --from=builder /tmp/codabix/ /opt/traeger/codabix
+COPY --from=builder /tmp/codabix/ /opt/traeger/codabix/
 COPY ./scripts/start.sh /home/scripts
 
 RUN ln -sf /opt/traeger/codabix/codabix /bin/codabix \

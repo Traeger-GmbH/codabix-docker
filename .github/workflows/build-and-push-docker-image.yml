@@ -25,16 +25,40 @@ jobs:
       run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
     -
       name: Set Docker Image Version (if existent)
-      run: if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
+      id: tags
+      run: |
+        if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
+        echo ::set-output name=tags::traeger/codabix:${DOCKER_TAG_VERSION}
       
     - 
       name: Print Docker Image Tag
       run: echo "traeger/codabix:$DOCKER_TAG_VERSION"
-        
-    - 
-      name: Build the x64 Docker image
-      run: cp -r scripts x64/ && cd x64 && docker build . --file Dockerfile --tag traeger/codabix:$DOCKER_TAG_VERSION
       
-    - 
-      name: Build the RPi Docker image
-      run: cp -r scripts rpi/ && cd rpi && docker build . --file Dockerfile --tag traeger/codabix:rpi-$DOCKER_TAG_VERSION
+    -
+      name: Set up QEMU
+      uses: docker/setup-qemu-action@master
+      with:
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+
+    -
+      name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@master
+
+    -
+      name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    -
+      name: Build
+      uses: docker/build-push-action@v2
+      with:
+        builder: ${{ steps.buildx.outputs.name }}
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+        push: true
+        tags: ${{ steps.tags.outputs.tags }}
