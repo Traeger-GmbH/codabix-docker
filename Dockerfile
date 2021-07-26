@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20210713 as base
+FROM ubuntu:hirsute-20210711 as base
 
 FROM base as builder
 
