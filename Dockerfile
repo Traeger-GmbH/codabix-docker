@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as base
+FROM ubuntu:focal-20210713 as base
 
 FROM base as builder
 
