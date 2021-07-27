@@ -31,7 +31,7 @@ jobs:
         then
           TAG="latest";
         fi
-        echo ::set-output name=tags::$(echo "ghcr.io/traeger-gmbh/codabix:${TAG}") 
+        echo ::set-output name=tags::$(echo "ghcr.io/traeger-gmbh/codabix:${TAG}\n traeger/codabix:${TAG}") 
     
     -
       name: Set up QEMU
