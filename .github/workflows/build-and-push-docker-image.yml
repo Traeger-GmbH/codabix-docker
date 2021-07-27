@@ -18,25 +18,21 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      DOCKER_TAG_VERSION: 'latest'
 
     steps:
     - uses: actions/checkout@v2
+
     -
       name: Get Docker Image Tag version from Git tag
-      run: echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g' >> STORE_TAG_VERSION
-    -
-      name: Set Docker Image Version (if existent)
-      id: tags
+      id: docker-tags
       run: |
-        if [ -z "$STORE_TAG_VERSION" ]; then echo "$STORE_TAG_VERSION" >> DOCKER_TAG_VERSION; fi
-        echo ::set-output name=tags::traeger/codabix:${DOCKER_TAG_VERSION}
-      
-    - 
-      name: Print Docker Image Tag
-      run: echo "traeger/codabix:$DOCKER_TAG_VERSION"
-      
+        TAG=$(echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g')
+        if [ "${TAG}" = "master" ];
+        then
+          TAG="latest";
+        fi
+        echo ::set-output name=tags::$(echo "ghcr.io/traeger-gmbh/codabix:${TAG} traeger/codabix/:${TAG}") 
+    
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@master
@@ -54,6 +50,14 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        
+    -
+      name: Log in to GitHub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.PACKAGES_GITHUB_USER }}
+        password: ${{ secrets.PACKAGES_GITHUB_TOKEN }}
 
     -
       name: Build
@@ -64,4 +68,5 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
         push: true
-        tags: ${{ steps.tags.outputs.tags }}
+        repository: 
+        tags: ${{ steps.docker-tags.outputs.tags }}
