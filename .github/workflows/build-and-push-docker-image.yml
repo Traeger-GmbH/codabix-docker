@@ -68,5 +68,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
         push: true
-        repository: 
         tags: ${{ steps.docker-tags.outputs.tags }}
