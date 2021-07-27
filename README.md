@@ -10,21 +10,15 @@ For running the latest image use the following commands.
 
 ```
 docker run -it -p 8181:8181 traeger/codabix:latest
-````
+```
 
 ### __Detached__ mode
 
-To run the container in detached mode (with docker run parameter `-d` instead of `-it`) you have to pass the additional parameter `--runAsService` (when using Codabix v0.x) or `--run-as-service` (when using Codabix v1.x) to enable daemon mode:
+To run the container in detached mode (with docker run parameter `-d` instead of `-it`) you have to pass the additional parameter `--run-as-service` to enable daemon mode:
 
-`Codabix v0.x`
 ```
-docker run -d -p 8181:8181 traeger/codabix:latest --runAsService
-````
-
-`Codabix v1.x:`
+docker run -d -p 8181:8181 ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
-docker run -d -p 8181:8181 traeger/codabix:latest --run-as-service
-````
 
 ### Persistence
 
@@ -41,14 +35,8 @@ docker volume create codabix-data
 
 2. Mount the volume under the project directory path during the start of the Codabix container:
 
-`Codabix v0.x`
 ```
-docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:latest --runAsService
-```
-
-`Codabix v1.x:`
-```
-docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 #### Bind to the host's filesystem
@@ -56,45 +44,19 @@ docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data traeger/codabix:la
 Instead of passing the name of a docker volume simply pass the path of the hosts directory as first part of the `-v` option.
 The Codabix process inside the container is run by the user `codabix` with user id 999 and group id 999. So you have to map the user (using the flag `-u 999`) to match the respective permissions on your file system.
 
-`Codabix v0.x:`
 ```
-docker run -d -p 8181:8181 -u 999 -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --runAsService
-```
-
-`Codabix v1.x:`
-
-```
-docker run -d -p 8181:8181 -u 999 -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -u 999 -v /path/to/hosts/directory:/home/codabix/data ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 ## Using docker-compose
 
 If you want to use docker-compose to run the application create a new file `docker-compose.yml` on your filesystem and copy and paste the following content.
 
-`Codabix v0.x:`
 ``` docker-compose.yml
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:latest
-    ports:
-      - "8181:8181"
-    volumes:
-      - "codabix-data:/home/codabix/data"
-    environment:
-      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
-      CODABIX_PROJECT_NAME: My Codabix project
-    command:  --runAsService
-volumes:
-  codabix-data:
-```
-
-`Codabix v1.x:`
-``` docker-compose.yml
-version: "2"
-services:
-  codabix:
-    image: traeger/codabix:latest
+    image: ghcr.io/traeger-gmbh/codabix:latest
     ports:
       - "8181:8181"
     volumes:
@@ -145,14 +107,8 @@ To restore the configuration from a Codabix backup file the file has to be acces
 
 The following command assumes that the backup file is located on the host's filesystem under the path `/home/SomeUser/codabix/restore-file.cbx`.
 
-`Codabix v0.x:`
 ```
-docker run -d -p 8181:8181 -v /home/SomeUser/codabix/restore-file.cbx:/home/codabix/restore-file.cbx --env CODABIX_RESTORE_FILE=/home/codabix/restore-file.cbx traeger/codabix:latest --runAsService
-```
-
-`Codabix v1.x:`
-```
-docker run -d -p 8181:8181 -v /home/SomeUser/codabix/restore-file.cbx:/home/codabix/restore-file.cbx --env CODABIX_RESTORE_FILE=/home/codabix/restore-file.cbx traeger/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -v /home/SomeUser/codabix/restore-file.cbx:/home/codabix/restore-file.cbx --env CODABIX_RESTORE_FILE=/home/codabix/restore-file.cbx ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 ## Enable access to peripherals
@@ -163,14 +119,8 @@ The following section describes the setup that is necessary to access hardware p
 * Usually you need root privileges to access the hardware peripherals. As the default user that runs Codabix inside the docker container does not have these kind of privileges it is necessary to override this by `-u root`
 * In addition to that a container is not allowed to access any devices of the. So you have to explicitly give permission to that by passing `--privileged`
 
-`Codabix v0.x:`
 ```
-docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --runAsService
-```
-
-`Codabix v1.x:`
-```
-docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data traeger/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -u root -v /dev:/dev -v /path/to/hosts/directory:/home/codabix/data ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 **Please note**:
@@ -178,33 +128,11 @@ As this container now is executed as `root` user the files created on the host's
 
 Example when using __docker-compose__:
 
-`Codabix v0.x:`
 ``` docker-compose.yml
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:latest
-    ports:
-      - "8181:8181"
-    volumes:
-      - "codabix-data:/home/codabix/data"
-      - "/dev:/dev"
-    environment:
-      CODABIX_ADMIN_PASSWORD: StrongAdminPassword
-      CODABIX_PROJECT_NAME: My Codabix project
-    command:  --runAsService
-    user: root
-    privileged: true
-volumes:
-  codabix-data:
-```
-
-`Codabix v1.x:`
-``` docker-compose.yml
-version: "2"
-services:
-  codabix:
-    image: traeger/codabix:latest
+    image: ghcr.io/traeger-gmbh/codabix:latest
     ports:
       - "8181:8181"
     volumes:
@@ -247,21 +175,19 @@ docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword t
 
 ### Overriding more settings parameters
 
-Starting from `traeger/codabix:1.0.3` it is now possible to override the default project settings by passing JSON data via the environment variable `CODABIX_PROJECT_SETTINGS`.
-
+It is possible to override the default project settings by passing JSON data via the environment variable `CODABIX_PROJECT_SETTINGS`.
 
 ```
 docker run -d -p 8181:8181 --env CODABIX_PROJECT_SETTINGS="{'ProjectName': 'My Codabix Project'}" traeger/codabix:latest
 ```
 
-In this way you can e.g. use Codabix in a docker-compose stack with an MySQL back end database:
-
+This way you can e.g. use Codabix in a docker-compose stack with an MySQL back end database:
 
 ```
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:latest
+    image: ghcr.io/traeger-gmbh/codabix:latest
     ports:
       - "8181:8181"
     volumes:
@@ -305,7 +231,7 @@ The license code used by Codabix inside the container is set via the environment
 Example when using __docker run__ (`<your-license-code>` representates your license code here):
 
 ```
-docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data -e CODABIX_LICENSE_CODE=<you-license-code> traeger/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data -e CODABIX_LICENSE_CODE=<you-license-code> ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 Example when using __docker-compose__ (`<your-license-code>` representates your license code here):
@@ -314,7 +240,7 @@ Example when using __docker-compose__ (`<your-license-code>` representates your 
 version: "2"
 services:
   codabix:
-    image: traeger/codabix:latest
+    image: ghcr.io/traeger-gmbh/codabix:latest
     ports:
       - "8181:8181"
     volumes:
