@@ -2,7 +2,9 @@
 
 __ATTENTION:__ As Docker hub does neither offer a flawless operation nor provide reliable and responsive technical support, we moved our images to GitHub packages. The images and documentation can now be found under [https://github.com/Traeger-GmbH/codabix-docker/pkgs/container/codabix](https://github.com/Traeger-GmbH/codabix-docker/pkgs/container/codabix).
 
-__Please update your applications to use the new image repository `ghcr.io/traeger-gmbh/codabix`__.
+__Please update your applications to use the new image repository:__
+
+`ghcr.io/traeger-gmbh/codabix`
 
 The repository on __Docker Hub__ is just maintained for compatibility reasons, but __we do not guarantee__ that there will be all versions/tags available forever.
 
