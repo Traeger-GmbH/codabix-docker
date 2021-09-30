@@ -1,7 +1,7 @@
 version: "2"
 services:
   codabix:
-    image: ghcr.io/traeger-gmbh/codabix:1.0.3
+    image: ghcr.io/traeger-gmbh/codabix:latest
     ports:
       - "8181:8181"
     volumes:
