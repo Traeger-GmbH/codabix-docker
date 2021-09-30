@@ -1,6 +1,10 @@
 # Codabix Docker
 
-This is the repository containing Codabix Docker images.
+__ATTENTION:__ As Docker hub does neither offer a flawless operation nor provide reliable and responsive technical support, we moved our images to GitHub packages. The images and documenation can now be found under [https://github.com/Traeger-GmbH/codabix-docker/pkgs/container/codabix](https://github.com/Traeger-GmbH/codabix-docker/pkgs/container/codabix).
+
+__Please update your applications to use the new image repository ghcr.io/traeger-gmbh/codabix__.
+
+The repository on Docker is just maintained for compatibility reasons, but we do not guarantee that there will be all versions/tags available forever.
 
 ## Running the latest version
 
@@ -9,7 +13,7 @@ For running the latest image use the following commands.
 ### __Interactive__ mode
 
 ```
-docker run -it -p 8181:8181 traeger/codabix:latest
+docker run -it -p 8181:8181 ghcr.io/traeger-gmbh/codabix:latest
 ```
 
 ### __Detached__ mode
@@ -167,7 +171,7 @@ You can override the default settings by using environment variables passed with
 For overriding e.g. the admin password with the value `MySuperComplexPassword` the container is run like follows:
 
 ```
-docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword traeger/codabix:latest
+docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword ghcr.io/traeger-gmbh/codabix:latest
 ```
 
 > NOTE: When running the Codabix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
@@ -178,7 +182,7 @@ docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword t
 It is possible to override the default project settings by passing JSON data via the environment variable `CODABIX_PROJECT_SETTINGS`.
 
 ```
-docker run -d -p 8181:8181 --env CODABIX_PROJECT_SETTINGS="{'ProjectName': 'My Codabix Project'}" traeger/codabix:latest
+docker run -d -p 8181:8181 --env CODABIX_PROJECT_SETTINGS="{'ProjectName': 'My Codabix Project'}" ghcr.io/traeger-gmbh/codabix:latest
 ```
 
 This way you can e.g. use Codabix in a docker-compose stack with an MySQL back end database:
