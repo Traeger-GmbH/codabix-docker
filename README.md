@@ -259,3 +259,20 @@ services:
 volumes:
   codabix-data:
 ```
+
+## Building the image
+
+During the build process the installer of Codabix will be downloaded from https://codabix.com and installed in the image.
+
+### Setting the Codabix version
+
+To choose the Codabix version used in the image two environment variables in the Dockerfile have to be set accordingly:
+
+- VERSION
+  - This variable holds the version that shall be used for the image.
+- RELEASE_DATE
+  - This variable corresponds to the release date of the version set in the VERSION variable.
+- Example:
+  - For using Codabix v1.3.0 the variables have to be set as follows:
+    - ENV VERSION 1.3.0
+    - ENV RELEASE_DATE 2021-12-16
