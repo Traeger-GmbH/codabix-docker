@@ -1,4 +1,4 @@
-FROM ubuntu:hirsute-20210711 as base
+FROM ubuntu:22.04 as base
 
 FROM base as builder
 
@@ -24,8 +24,8 @@ RUN chmod +x /home/scripts/extract.sh \
 FROM base
 
 RUN apt-get update && apt-get install -y \
-    libicu67 \
-    libssl1.1 \
+    libicu70 \
+    libssl3 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/traeger/codabix \
