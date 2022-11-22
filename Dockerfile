@@ -26,6 +26,7 @@ FROM base
 RUN apt-get update && apt-get install -y \
     libicu70 \
     libssl3 \
+    iputils-ping \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/traeger/codabix \
