@@ -5,8 +5,8 @@ FROM base as builder
 ARG TARGETPLATFORM
 
 ENV CODABIX_SETUP_FILE /tmp/codabix.setup
-ENV VERSION 1.4.12
-ENV RELEASE_DATE 2023-04-05
+ENV VERSION 1.4.13
+ENV RELEASE_DATE 2023-04-19
 
 RUN apt-get update && apt-get install -y \
     curl
