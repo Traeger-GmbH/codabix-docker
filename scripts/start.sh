@@ -68,4 +68,6 @@ fi
 
 codabix init --upgrade "--project-directory=${CODABIX_PROJECT_DIR}"
 
-codabix "--project-directory=${CODABIX_PROJECT_DIR}" $1
+# Use "exec" to replace the process (so Codabix will become PID 1), so that Codabix will
+# receive the SIGTERM signal when the container is to be stopped.
+exec codabix "--project-directory=${CODABIX_PROJECT_DIR}" $1
