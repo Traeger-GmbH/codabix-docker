@@ -234,13 +234,13 @@ The license code used by Codabix inside the container is set via the environment
 
 **Attention:** This environment variable has been introduced in Codabix v1.0 so it will only work for version upwards.
 
-Example when using __docker run__ (`<your-license-code>` representates your license code here):
+Example when using __docker run__ (`<your-license-code>` represents your license code here):
 
 ```
-docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data -e CODABIX_LICENSE_CODE=<you-license-code> ghcr.io/traeger-gmbh/codabix:latest --run-as-service
+docker run -d -p 8181:8181 -v codabix-data:/home/codabix/data -e CODABIX_LICENSE_CODE=<your-license-code> ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
-Example when using __docker-compose__ (`<your-license-code>` representates your license code here):
+Example when using __docker-compose__ (`<your-license-code>` represents your license code here):
 
 ```
 version: "2"
@@ -254,11 +254,21 @@ services:
     environment:
       CODABIX_ADMIN_PASSWORD: StrongAdminPassword
       CODABIX_PROJECT_NAME: My CoDaBix project
-      CODABIX_LICENSE_CODE: <you-license-code>
+      CODABIX_LICENSE_CODE: <your-license-code>
     command:  --run-as-service
 volumes:
   codabix-data:
 ```
+
+### Setting the license code in a running container
+
+If you want to set the license code for a Codabix container that is already running, you can execute the following command to set it, where `<container>` refers to the running container's name or ID, and `<your-license-code>` represents your license code:
+
+```
+docker exec -u 0 <container> codabix license set <your-license-code>
+```
+
+The new license code should be recognized by Codabix a few seconds after running the command.
 
 ## Building the image
 
