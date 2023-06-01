@@ -262,13 +262,18 @@ volumes:
 
 ### Setting the license code in a running container
 
-If you want to set the license code for a Codabix container that is already running, you can execute the following command to set it, where `<container>` refers to the running container's name or ID, and `<your-license-code>` represents your license code:
+If you want to set the license code for a Codabix container that is already running and which was started without setting the
+`CODABIX_LICENSE_CODE` environment variable, you can execute the following command, where `<container>` refers
+to the running container's name or ID, and `<your-license-code>` represents your license code:
 
 ```
 docker exec -u 0 <container> codabix license set <your-license-code>
 ```
 
 The new license code should be recognized by Codabix a few seconds after running the command.
+
+**Note:** As mentioned above, this only works if you didn't set the `CODABIX_LICENSE_CODE` environment variable when
+creating the container.
 
 ## Building the image
 
