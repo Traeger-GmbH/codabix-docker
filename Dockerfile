@@ -23,10 +23,14 @@ RUN chmod +x /home/scripts/extract.sh \
 
 FROM base
 
+# 'iputils-ping' is required for sending ping requests using the Script API.
+# 'ca-certificates' is required to install trusted public root CAs
+# ("certificate authorities used by the Debian infrastructure and those shipped with Mozilla's browsers").
 RUN apt-get update && apt-get install -y \
     libicu70 \
     libssl3 \
     iputils-ping \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/traeger/codabix \
