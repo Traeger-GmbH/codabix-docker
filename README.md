@@ -273,6 +273,10 @@ The new license code should be recognized by Codabix a few seconds after running
 
 **Note:** As mentioned above, this only works if you didn't set the `CODABIX_LICENSE_CODE` environment variable when
 creating the container.
+Additionally, the license will only work in the current container; so e.g. if you update to
+a newer Codabix image, you will have to set the license again.
+
+For this reason, using the environment variable to set the license code is preferred.
 
 ## Building the image
 
