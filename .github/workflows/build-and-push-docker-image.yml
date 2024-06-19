@@ -31,7 +31,8 @@ jobs:
         then
           TAG="latest";
         fi
-        echo "tags=$(echo "ghcr.io/traeger-gmbh/codabix:${TAG}%0Atraeger/codabix:${TAG}")" >> $GITHUB_OUTPUT
+        echo "tags=\"ghcr.io/traeger-gmbh/codabix:${TAG}
+        traeger/codabix:${TAG}\"" >> $GITHUB_OUTPUT
     
     -
       name: Set up QEMU
