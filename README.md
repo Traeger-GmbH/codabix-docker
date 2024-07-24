@@ -172,7 +172,7 @@ You can override the default settings by using environment variables passed with
 For overriding e.g. the admin password with the value `MySuperComplexPassword` the container is run like follows:
 
 ```
-docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword ghcr.io/traeger-gmbh/codabix:latest
+docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 > NOTE: When running the Codabix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
@@ -183,7 +183,7 @@ docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword g
 It is possible to override the default project settings by passing JSON data via the environment variable `CODABIX_PROJECT_SETTINGS`.
 
 ```
-docker run -d -p 8181:8181 --env CODABIX_PROJECT_SETTINGS="{'ProjectName': 'My Codabix Project'}" ghcr.io/traeger-gmbh/codabix:latest
+docker run -d -p 8181:8181 --env CODABIX_PROJECT_SETTINGS="{'ProjectName': 'My Codabix Project'}" ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
 This way you can e.g. use Codabix in a docker-compose stack with an MySQL back end database:
