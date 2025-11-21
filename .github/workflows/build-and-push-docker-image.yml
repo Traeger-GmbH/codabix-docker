@@ -42,7 +42,7 @@ jobs:
       name: Set up QEMU
       uses: docker/setup-qemu-action@master
       with:
-          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+          platforms: linux/amd64,linux/arm64/v8
 
     -
       name: Set up Docker Buildx
@@ -71,6 +71,6 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         context: .
         file: ./Dockerfile
-        platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+        platforms: linux/amd64,linux/arm64/v8
         push: true
         tags: ${{ steps.docker-tags.outputs.tags }}
