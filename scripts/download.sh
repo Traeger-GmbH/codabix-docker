@@ -81,4 +81,4 @@ fi
 
 DOWNLOAD_LINK="https://www.codabix.com/downloads/installers/codabix-${VERSION}/codabix-${PLATFORMID}-${RELEASE_DATE}-${VERSION}.setup"
 echo "Downloading from following link: $DOWNLOAD_LINK"
-curl ${DOWNLOAD_LINK} --output ${OUTPUT_FILEPATH}
+curl ${DOWNLOAD_LINK} --fail --output ${OUTPUT_FILEPATH}
