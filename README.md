@@ -164,6 +164,7 @@ volumes:
 ### Overriding the default settings
 
 You can override the default settings by using environment variables passed with `--env` to the container on start.
+These are used when a new Codabix Project is created (when the container is started for the first time).
 
 * Project directory: `CODABIX_PROJECT_DIR`
 * Admin password: `CODABIX_ADMIN_PASSWORD`
@@ -175,8 +176,9 @@ For overriding e.g. the admin password with the value `MySuperComplexPassword` t
 docker run -d -p 8181:8181 --env CODABIX_ADMIN_PASSWORD=MySuperComplexPassword ghcr.io/traeger-gmbh/codabix:latest --run-as-service
 ```
 
-> NOTE: When running the Codabix image with persisted data (already existing application data from a previous run) overriding the admin password or the project name will have no effect.
-
+> NOTE: When running the Codabix image with persisted data (already existing project data from a previous run), overriding the admin password
+> or the project name by specifying environment variables will have no effect - see section "Changing the admin password in an existing project"
+> below for how to change the admin password when the project has already been created.
 
 ### Overriding more settings parameters
 
@@ -227,6 +229,16 @@ volumes:
   db-data:
 ```
 
+### Changing the admin password in an existing project (in a running container)
+
+To change the Codabix Admin Password in a running container, you can execute the following command, where 
+`<NEW-ADMIN-PASSWORD>` represents the new admin password, and `/home/codabix/data` is the path of the
+project directory in the container (where the volume was mapped to):
+
+```
+docker exec -it <container> codabix set-admin-password <NEW-ADMIN-PASSWORD> --project-directory=/home/codabix/data
+```
+
 ## Setting the license code
 
 The license code used by Codabix inside the container is set via the environment variable `CODABIX_LICENSE_CODE`.
@@ -266,7 +278,7 @@ If you want to set the license code for a Codabix container that is already runn
 to the running container's name or ID, and `<your-license-code>` represents your license code:
 
 ```
-docker exec -u 0 <container> codabix license set <your-license-code>
+docker exec -it -u 0 <container> codabix license set <your-license-code>
 ```
 
 The new license code should be recognized by Codabix a few seconds after running the command.
