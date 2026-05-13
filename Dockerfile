@@ -5,8 +5,8 @@ FROM base as builder
 ARG TARGETPLATFORM
 
 ENV CODABIX_SETUP_FILE=/tmp/codabix.setup
-ENV VERSION=1.7.1
-ENV RELEASE_DATE=2026-04-23
+ENV VERSION=1.7.2
+ENV RELEASE_DATE=2026-05-13
 
 RUN apt-get update && apt-get install -y \
     curl
