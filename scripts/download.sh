@@ -68,9 +68,6 @@ PLATFORMID=""
 if [ "${TARGET_PLATFORM}" = "linux/amd64" ]
 then
     PLATFORMID="linux-x64"
-elif [ "${TARGET_PLATFORM}" = "linux/arm/v7" ]
-then
-    PLATFORMID="linux-arm32"
 elif [ "${TARGET_PLATFORM}" = "linux/arm64" ]
 then
     PLATFORMID="linux-arm64"

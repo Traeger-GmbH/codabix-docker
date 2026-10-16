@@ -4,73 +4,62 @@ on:
   release:
     types:
       - published
-  
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches:
       - master
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
-    -
-      name: Get Docker Image Tag version from Git tag
-      id: docker-tags
-      run: |
-        TAG=$(echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g')
-        if [ "${TAG}" = "master" ];
-        then
-          TAG="latest";
-        fi
-        {
-          echo "tags<<EOFTAGS"
-          echo "ghcr.io/traeger-gmbh/codabix:${TAG}"
-          echo "traeger/codabix:${TAG}"
-          echo "EOFTAGS"
-        } >> "$GITHUB_OUTPUT"
-    
-    -
-      name: Set up QEMU
-      uses: docker/setup-qemu-action@master
-      with:
-          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
+      - name: Get Docker Image Tag version from Git tag
+        id: docker-tags
+        run: |
+          TAG=$(echo "$GITHUB_REF" | cut -d '/' -f3 | sed -e 's/^v//g')
+          if [ "${TAG}" = "master" ];
+          then
+            TAG="latest";
+          fi
+          {
+            echo "tags<<EOFTAGS"
+            echo "ghcr.io/traeger-gmbh/codabix:${TAG}"
+            echo "traeger/codabix:${TAG}"
+            echo "EOFTAGS"
+          } >> "$GITHUB_OUTPUT"
 
-    -
-      name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@master
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+        with:
+          platforms: linux/amd64,linux/arm64/v8
 
-    -
-      name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        
-    -
-      name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ secrets.PACKAGES_GITHUB_USER }}
-        password: ${{ secrets.PACKAGES_GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
-    -
-      name: Build
-      uses: docker/build-push-action@v6
-      with:
-        builder: ${{ steps.buildx.outputs.name }}
-        context: .
-        file: ./Dockerfile
-        platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
-        push: true
-        tags: ${{ steps.docker-tags.outputs.tags }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.PACKAGES_GITHUB_USER }}
+          password: ${{ secrets.PACKAGES_GITHUB_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64/v8
+          push: true
+          tags: ${{ steps.docker-tags.outputs.tags }}
