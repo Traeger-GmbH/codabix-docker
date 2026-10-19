@@ -8,6 +8,6 @@ codabix_setup_file=$1
 
 echo "Setup file: $codabix_setup_file"
 
-chmod +x $codabix_setup_file
-.$codabix_setup_file --noexec --target /tmp/extract
+chmod +x "$codabix_setup_file"
+"$codabix_setup_file" --noexec --target /tmp/extract
 mv /tmp/extract/$(ls /tmp/extract/ | head -n 1) /tmp/codabix

@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as base
+FROM ubuntu:24.04 as base
 
 FROM base as builder
 
@@ -26,9 +26,12 @@ FROM base
 # 'iputils-ping' is required for sending ping requests using the Script API.
 # 'ca-certificates' is required to install trusted public root CAs
 # ("certificate authorities used by the Debian infrastructure and those shipped with Mozilla's browsers").
-RUN apt-get update && apt-get install -y \
-    libicu70 \
-    libssl3 \
+# 'tzdata' is required by .NET for time zone support (otherwise only UTC is available).
+# DEBIAN_FRONTEND=noninteractive prevents tzdata from prompting for a time zone during the build.
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libicu74 \
+    libssl3t64 \
+    tzdata \
     iputils-ping \
     ca-certificates \
     && update-ca-certificates \

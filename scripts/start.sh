@@ -11,8 +11,6 @@ if [[ (-z "${CODABIX_INITIALIZED}" ) && (! -f "${CODABIX_PROJECT_DIR}/codabixdb.
         export CODABIX_ADMIN_PASSWORD=admin
     fi
 
-    echo "admin pw: ${CODABIX_ADMIN_PASSWORD}"
-
     # create the project
     codabix create "--project-directory=${CODABIX_PROJECT_DIR}"
 
@@ -70,4 +68,4 @@ codabix init --upgrade "--project-directory=${CODABIX_PROJECT_DIR}"
 
 # Use "exec" to replace the process (so Codabix will become PID 1), so that Codabix will
 # receive the SIGTERM signal when the container is to be stopped.
-exec codabix "--project-directory=${CODABIX_PROJECT_DIR}" $1
+exec codabix "--project-directory=${CODABIX_PROJECT_DIR}" "$@"

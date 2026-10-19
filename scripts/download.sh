@@ -35,7 +35,7 @@ while getopts ":p:v:d:o:h" opt; do
     h) print_help; exit
     ;;
     \?) echo "
-  Invalid option \"-$OPTARG\"">&2; print_help; exit
+  Invalid option \"-$OPTARG\"">&2; print_help; exit 1
     ;;
   esac
 done
@@ -44,21 +44,21 @@ if [ -z "$TARGET_PLATFORM" ]
 then
   echo "Required parameter <TARGET_PLATFORM> not set."
   print_help
-  exit
+  exit 1
 fi
 
 if [ -z "$VERSION" ]
 then
   echo "Required parameter <VERSION> not set."
   print_help
-  exit
+  exit 1
 fi
 
 if [ -z "$RELEASE_DATE" ]
 then
   echo "Required parameter <RELEASE_DATE> not set."
   print_help
-  exit
+  exit 1
 fi
 
 echo "Downloading setup file for target platform: $TARGET_PLATFORM"
@@ -73,7 +73,7 @@ then
     PLATFORMID="linux-arm64"
 else
     echo "Target platform \"${TARGET_PLATFORM}\" is not supported."
-    exit -1
+    exit 1
 fi
 
 DOWNLOAD_LINK="https://www.codabix.com/downloads/installers/codabix-${VERSION}/codabix-${PLATFORMID}-${RELEASE_DATE}-${VERSION}.setup"
