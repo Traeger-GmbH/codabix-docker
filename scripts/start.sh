@@ -60,11 +60,14 @@ if [[ (-z "${CODABIX_INITIALIZED}" ) && (! -f "${CODABIX_PROJECT_DIR}/codabixdb.
 
     codabix set-admin-password "${CODABIX_ADMIN_PASSWORD}" "--project-directory=${CODABIX_PROJECT_DIR}"
 
-    unset CODABIX_ADMIN_PASSWORD
     export CODABIX_INITIALIZED=true
 fi
 
 codabix init --upgrade "--project-directory=${CODABIX_PROJECT_DIR}"
+
+# Unset variables that are used only by the scripts (regardless of whether they were used),
+# not by Codabix itself, to prevent them from being read e.g. by scripts.
+unset CODABIX_ADMIN_PASSWORD CODABIX_PROJECT_SETTINGS CODABIX_RESTORE_FILE CODABIX_PROJECT_NAME
 
 # Use "exec" to replace the process (so Codabix will become PID 1), so that Codabix will
 # receive the SIGTERM signal when the container is to be stopped.
